@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import java.io.IOException
+import java.lang.RuntimeException
 
 @Service
 @Transactional
@@ -18,8 +19,15 @@ class ChatService(val chatRoomRepository: ChatRoomRepository) {
 
     fun createRoom (name: String): ChatRoom {
         val chatRoom = ChatRoom(name)
-        val savedChatRoom = chatRoomRepository.save(chatRoom)
-        return savedChatRoom
+        return chatRoomRepository.save(chatRoom)
+    }
+
+    fun findAllRoom(): List<ChatRoom> {
+        return chatRoomRepository.findAll()
+    }
+
+    fun findById(id: Long): ChatRoom {
+        return chatRoomRepository.findById(id).get()
     }
 
     fun <T> sendMessage(session: WebSocketSession, message: T) {

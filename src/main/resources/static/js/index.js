@@ -18,7 +18,6 @@ const colors = [
 
 function connect(event) {
     username = document.querySelector('#name').value.trim();
-
     if(username) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
@@ -30,7 +29,6 @@ function connect(event) {
     }
     event.preventDefault();
 }
-
 
 function onConnected() {
     // Subscribe to the Public Topic
@@ -45,12 +43,10 @@ function onConnected() {
     connectingElement.classList.add('hidden');
 }
 
-
 function onError(error) {
     connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
     connectingElement.style.color = 'red';
 }
-
 
 function sendMessage(event) {
     const messageContent = messageInput.value.trim();
@@ -58,7 +54,8 @@ function sendMessage(event) {
         const chatMessage = {
             sender: username,
             content: messageInput.value,
-            type: 'CHAT'
+            type: 'CHAT',
+            roomId: 1
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
